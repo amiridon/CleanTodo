@@ -26,26 +26,30 @@ public class TodoService : ITodoService
     Task ITodoService.DeleteTodoItemAsync(Guid id)
     {
         var todoItem = _todoItems.FirstOrDefault(x => x.Id == id);
-        _todoItems.ToList().Remove(todoItem);
+        if(todoItem is not null)
+            _todoItems.ToList().Remove(todoItem);
         return Task.CompletedTask;
     }
 
-    Task<TodoItem> ITodoService.GetTodoItemAsync(Guid id)
+    Task<TodoItem?> ITodoService.GetTodoItemAsync(Guid id)
     {
         return Task.FromResult(_todoItems.FirstOrDefault(x => x.Id == id));
     }
 
-    Task<IEnumerable<TodoItem>> ITodoService.GetTodoItemsAsync()
+    Task<List<TodoItem>> ITodoService.GetTodoItemsAsync()
     {
-        return Task.FromResult(_todoItems);
+        return Task.FromResult(_todoItems.ToList());
     }
 
-    Task<TodoItem> ITodoService.UpdateTodoItemAsync(Guid id, TodoItem todoItem)
+    Task<TodoItem?> ITodoService.UpdateTodoItemAsync(Guid id, TodoItem todoItem)
     {
         var existingTodoItem = _todoItems.FirstOrDefault(x => x.Id == id);
-        existingTodoItem.Title = todoItem.Title;
-        existingTodoItem.IsDone = todoItem.IsDone;
-        existingTodoItem.ModifiedDate = DateTime.Now;
+        if(existingTodoItem is not null)
+        {
+            existingTodoItem.Title = todoItem.Title;
+            existingTodoItem.IsDone = todoItem.IsDone;
+            existingTodoItem.ModifiedDate = DateTime.Now;
+        }
         return Task.FromResult(existingTodoItem);
     }
 }
