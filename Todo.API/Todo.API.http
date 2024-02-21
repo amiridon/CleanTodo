@@ -4,3 +4,21 @@ GET {{Todo.API_HostAddress}}/gettodos/
 Accept: application/json
 
 ###
+
+GET {{Todo.API_HostAddress}}/gettodo/96eeb547-d1a4-47cf-a80e-da48b2c7deda
+Accept: application/json
+
+###
+
+POST {{Todo.API_HostAddress}}/createtodo/
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "Test Todo",
+  "description": "This is a test todo",
+  "isCompleted": false
+}
+
+###
+
